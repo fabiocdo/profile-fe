@@ -1,0 +1,32 @@
+.lg-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;       
+    background-color: steelblue;
+}
+
+.lg-box {
+    display: flex;
+    flex-direction: column;
+    text-align: center;    
+    height: 400px;
+    width: 300px;
+}
+
+.lg-title {
+    margin-top: 40px;
+    font-size: 24px;
+}
+
+.lg-input {
+    margin-top: 10%;
+}
+
+.lg-button-section{
+    margin: 40px;
+    display: flex;
+    flex-direction: column;
+}
+

@@ -1,0 +1,66 @@
+.su-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: steelblue;
+}
+
+.su-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: 1;
+    padding: 20px;
+    border-radius: 5%;
+    height: 500px;
+    width: 800px;
+}
+
+.su-box-title{
+    font-weight: 300;
+    font-size: 28px;
+    margin-bottom: 5px;
+    color: steelblue;
+}
+
+.su-box-top-row{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.su-box-mid-row{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.su-input{
+    width: 100px;
+}
+
+.su-input1{
+    width: 150px;
+}
+
+.su-input2{
+    width: 200px;
+}
+
+.su-input3{
+    width: 350px;
+}
+
+.su-button-section{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.su-button-reset{
+    margin-right: 20px;
+}
+
