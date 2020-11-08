@@ -3,7 +3,9 @@ import { useForm } from 'react-hook-form';
 import { Paper, TextField, Select, InputLabel, Divider, Button } from '@material-ui/core';
 import '../Styles/signup.css';
 
-export default function SignUp() {
+export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMONSTRAÇÃO
+
+    // VARIÁVEIS
     const [nome, setNome] = useState("");
     const [sobrenome, setSobrenome] = useState("");
     const [email, setEmail] = useState("");
@@ -16,6 +18,7 @@ export default function SignUp() {
     const [complemento, setComplemento] = useState("");
     const [bairro, setBairro] = useState("");
     const [cidade, setCidade] = useState("");
+    const [uf, setUf] = useState("");
     const [senha, setSenha] = useState("");
     const [senhaCheck, setSenhaCheck] = useState("");
 
@@ -29,6 +32,7 @@ export default function SignUp() {
         setLogradouro("");
         setNumero("");
         setComplemento("");
+        setUf("");
         setBairro("");
         setCidade("");
         setSenha("");
@@ -37,22 +41,23 @@ export default function SignUp() {
         setEmailCheck("");
     }
 
-    const updateCep = async (arg) => {
+    const { register } = useForm();
+    //debug const { handleSubmit } = useForm();
+    //debug const submitLog = (data) => console.log(data);
 
-        setCep(arg.target.value);
+    // MÉTODOS
+    const cepHandler = async (arg) => {
+        setCep(arg.target.value.replace(/[^0-9]+/g, ''));
 
-        if (arg.target.value.length === 8) {
+        if (arg.target.value.length > 7) {
             const response = await buscaCep(parseInt(arg.target.value));
 
             setCep(response.cep);
             setLogradouro(response.logradouro);
             setBairro(response.bairro);
             setCidade(response.localidade);
-
-
-            console.log(response);
+            setUf(response.uf);
         }
-
     }
 
     const buscaCep = async (cep) => {
@@ -66,16 +71,14 @@ export default function SignUp() {
         return response.json();
     }
 
-    const { register, handleSubmit } = useForm();
-    const submitLog = (data) => console.log(data);
+    const submitHandler = () => {
+        //debug handleSubmit(submitLog);
+    }
 
     return (
         <div className="su-container">
             <Paper elevation={3}>
-                <form onSubmit={() => {
-                    handleSubmit(submitLog);
-
-                }}>
+                <form onSubmit={submitHandler}>
                     <div className="su-box">
                         <div className="su-box-title">Dados pessoais</div>
                         <Divider />
@@ -153,6 +156,7 @@ export default function SignUp() {
                                     <option value={"Outro"}>Outro</option>
                                 </Select>
                             </div>
+
                             <div>
                                 <TextField
                                     required
@@ -161,9 +165,12 @@ export default function SignUp() {
                                     label="Confirme seu E-mail"
                                     type="text"
                                     value={emailCheck}
+
                                     onChange={arg => setEmailCheck(arg.target.value)}
+
                                 />
                             </div>
+
                         </div>
                         <div className="su-box-title">Endereço</div>
                         <Divider />
@@ -180,7 +187,7 @@ export default function SignUp() {
                                     inputRef={register}
                                     name="cep"
                                     value={cep}
-                                    onChange={updateCep}
+                                    onChange={cepHandler}
                                 />
                             </div>
                             <div>
@@ -252,9 +259,51 @@ export default function SignUp() {
                                 />
                             </div>
                             <div>
+                                <InputLabel htmlFor="uf" required>UF</InputLabel>
+                                <Select
+                                    required
+                                    native
+                                    className="su-input-micro"
+                                    inputRef={register}
+                                    name="uf"
+                                    value={uf}
+                                    onChange={arg => setUf(arg.target.value)}
+                                    inputProps={{ id: 'uf' }}
+                                >
+                                    <option value=""></option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </Select>
+                            </div>
+                            <div>
                                 <TextField
                                     required
-                                    className="su-input2"
+                                    className="su-input1"
                                     id="standard-basic"
                                     label="Sua senha"
                                     type="password"
@@ -267,7 +316,7 @@ export default function SignUp() {
                             <div>
                                 <TextField
                                     required
-                                    className="su-input2"
+                                    className="su-input1"
                                     id="standard-basic"
                                     label="Confirme sua senha"
                                     type="password"
@@ -282,6 +331,7 @@ export default function SignUp() {
                             <div className="su-button-reset">
                                 <Button variant="contained" type="reset" color="secondary" onClick={reset}> Limpar </Button>
                             </div>
+                            {/* debug <Button variant="contained" onClick={handleSubmit(submitLog)} color="primary"> Confirmar </Button>*/}
                             <Button variant="contained" type="submit" color="primary"> Confirmar </Button>
                         </div>
                     </div>

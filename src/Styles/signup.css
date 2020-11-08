@@ -38,12 +38,16 @@
     margin-bottom: 30px;
 }
 
+.su-input-micro{
+    width: 50px;
+}
+
 .su-input{
     width: 100px;
 }
 
 .su-input1{
-    width: 150px;
+    width: 160px;
 }
 
 .su-input2{

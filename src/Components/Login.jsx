@@ -4,7 +4,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
 import '../Styles/login.css';
 
-class Login extends Component {
+class Login extends Component {     // CLASS COMPONENT USADO PARA DEMONSTRAÇÃO
 
     constructor(props) {
         super(props);
