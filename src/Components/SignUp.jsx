@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Paper, TextField, Select, InputLabel, Divider, Button } from '@material-ui/core';
 import '../Styles/signup.css';
+import { Redirect } from 'react-router-dom';
 
 export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMONSTRAÇÃO
 
@@ -62,23 +63,47 @@ export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMON
 
     const buscaCep = async (cep) => {
 
-        const response = await fetch("https://viacep.com.br/ws/" + cep + "/json/", {
+        const response = await fetch('https://viacep.com.br/ws/' + cep + '/json/', {
             method: 'GET',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
+            headers: { 'Content-Type': 'application/json' }
         })
         return response.json();
     }
 
-    const submitHandler = () => {
-        //debug handleSubmit(submitLog);
+    const onSubmit = async () => {
+
+        const body = {
+            "nome": nome,
+            "sobrenome": sobrenome,
+            "email": email,
+            "dataDeNascimento": dataDeNascimento,
+            "sexo": sexo,
+            "cep": cep,
+            "logradouro": logradouro,
+            "numero": numero,
+            "complemento": complemento,
+            "uf": uf,
+            "bairro": bairro,
+            "cidade": cidade
+        }
+
+        const response = await fetch('http://localhost:8080/signup', {
+            method: 'post',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.ok) {
+            alert("Cadastro realizado com sucesso!");
+        } else {
+            alert("Opa, aconteceu algo de errado!");
+        }
     }
 
     return (
         <div className="su-container">
             <Paper elevation={3}>
-                <form onSubmit={submitHandler}>
+                <form >
                     <div className="su-box">
                         <div className="su-box-title">Dados pessoais</div>
                         <Divider />
@@ -331,8 +356,7 @@ export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMON
                             <div className="su-button-reset">
                                 <Button variant="contained" type="reset" color="secondary" onClick={reset}> Limpar </Button>
                             </div>
-                            {/* debug <Button variant="contained" onClick={handleSubmit(submitLog)} color="primary"> Confirmar </Button>*/}
-                            <Button variant="contained" type="submit" color="primary"> Confirmar </Button>
+                            <Button variant="contained" onClick={onSubmit} color="primary"> Confirmar </Button>
                         </div>
                     </div>
                 </form>
