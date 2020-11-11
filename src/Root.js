@@ -1,14 +1,10 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Login from './Components/Login'
-import SignUp from './Components/SignUp'
+import { BrowserRouter } from 'react-router-dom';
+import Home from './Components/Home'
 
 const Root = () => {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route exact path="/"> <Login /> </Route>
-        <Route path="/signup"> <SignUp /> </Route>
-      </Switch>
+      <Home />
     </BrowserRouter>
   );
 }

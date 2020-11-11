@@ -1,181 +1,115 @@
-import { React, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { React, Component } from 'react';
 import { Paper, TextField, Select, InputLabel, Divider, Button } from '@material-ui/core';
 import '../Styles/signup.css';
-import { Redirect } from 'react-router-dom';
 
-export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMONSTRAÇÃO
+class SignUp extends Component {
 
-    // VARIÁVEIS
-    const [nome, setNome] = useState("");
-    const [sobrenome, setSobrenome] = useState("");
-    const [email, setEmail] = useState("");
-    const [emailCheck, setEmailCheck] = useState("");
-    const [dataDeNascimento, setDataDeNascimento] = useState("");
-    const [sexo, setSexo] = useState("");
-    const [cep, setCep] = useState("");
-    const [logradouro, setLogradouro] = useState("");
-    const [numero, setNumero] = useState("");
-    const [complemento, setComplemento] = useState("");
-    const [bairro, setBairro] = useState("");
-    const [cidade, setCidade] = useState("");
-    const [uf, setUf] = useState("");
-    const [senha, setSenha] = useState("");
-    const [senhaCheck, setSenhaCheck] = useState("");
+    constructor(props) {
+        super(props);
 
-    const reset = () => {
-        setNome("");
-        setSobrenome("");
-        setEmail("");
-        setDataDeNascimento("");
-        setSexo("");
-        setCep("");
-        setLogradouro("");
-        setNumero("");
-        setComplemento("");
-        setUf("");
-        setBairro("");
-        setCidade("");
-        setSenha("");
-        setSenhaCheck("");
-        setEmail("");
-        setEmailCheck("");
-    }
-
-    const { register } = useForm();
-    //debug const { handleSubmit } = useForm();
-    //debug const submitLog = (data) => console.log(data);
-
-    // MÉTODOS
-    const cepHandler = async (arg) => {
-        setCep(arg.target.value.replace(/[^0-9]+/g, ''));
-
-        if (arg.target.value.length > 7) {
-            const response = await buscaCep(parseInt(arg.target.value));
-
-            setCep(response.cep);
-            setLogradouro(response.logradouro);
-            setBairro(response.bairro);
-            setCidade(response.localidade);
-            setUf(response.uf);
+        this.state = {
+            nome: '',
+            sobrenome: '',
+            email: '',
+            emailCheck: '',
+            dataDeNascimento: '',
+            sexo: '',
+            cep: '',
+            logradouro: '',
+            numero: '',
+            complemento: '',
+            bairro: '',
+            cidade: '',
+            uf: '',
+            senha: '',
+            senhaCheck: '',
         }
     }
 
-    const buscaCep = async (cep) => {
+    render() {
+        const {
+            nome,
+            sobrenome,
+            email,
+            emailCheck,
+            dataDeNascimento,
+            sexo,
+            cep,
+            logradouro,
+            numero,
+            complemento,
+            bairro,
+            cidade,
+            uf,
+            senha,
+            senhaCheck,
+        } = this.state;
 
-        const response = await fetch('https://viacep.com.br/ws/' + cep + '/json/', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        return response.json();
-    }
-
-    const onSubmit = async () => {
-
-        const body = {
-            "nome": nome,
-            "sobrenome": sobrenome,
-            "email": email,
-            "dataDeNascimento": dataDeNascimento,
-            "sexo": sexo,
-            "cep": cep,
-            "logradouro": logradouro,
-            "numero": numero,
-            "complemento": complemento,
-            "uf": uf,
-            "bairro": bairro,
-            "cidade": cidade
-        }
-
-        const response = await fetch('http://localhost:8080/signup', {
-            method: 'post',
-            body: JSON.stringify(body),
-            headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (response.ok) {
-            alert("Cadastro realizado com sucesso!");
-        } else {
-            alert("Opa, aconteceu algo de errado!");
-        }
-    }
-
-    return (
-        <div className="su-container">
-            <Paper elevation={3}>
-                <form >
+        return (
+            <div className="su-container" >
+                <Paper elevation={3}>
                     <div className="su-box">
                         <div className="su-box-title">Dados pessoais</div>
                         <Divider />
                         <div className="su-box-top-row">
                             <div>
                                 <TextField
-                                    required
                                     className="su-input2"
                                     id="standard-basic"
-                                    label="Primeiro nome"
                                     type="text"
-                                    inputRef={register}
+                                    label="Primeiro nome"
                                     name="nome"
                                     value={nome}
-                                    onChange={arg => setNome(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                             <div>
                                 <TextField
-                                    required
                                     className="su-input2"
                                     id="standard-basic"
                                     label="Sobrenome"
                                     type="text"
-                                    inputRef={register}
                                     name="sobrenome"
                                     value={sobrenome}
-                                    onChange={arg => setSobrenome(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                             <div>
                                 <TextField
-                                    required
                                     className="su-input3"
                                     id="standard-basic"
                                     label="E-mail"
                                     type="text"
-                                    inputRef={register}
                                     name="email"
                                     value={email}
-                                    onChange={arg => setEmail(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                         </div>
                         <div className="su-box-mid-row">
                             <div>
                                 <TextField
-                                    required
                                     className="su-input2"
                                     id="date"
                                     label="Data de Nascimento"
                                     type="date"
-                                    inputRef={register}
                                     name="dataDeNascimento"
                                     value={dataDeNascimento}
-                                    onChange={arg => setDataDeNascimento(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                     InputLabelProps={{ shrink: true }}
                                 />
                             </div>
                             <div>
-                                <InputLabel htmlFor="sexo" required>Sexo</InputLabel>
+                                <InputLabel htmlFor="sexo">Sexo</InputLabel>
                                 <Select
-                                    required
                                     native
                                     className="su-input2"
-                                    inputRef={register}
                                     name="sexo"
                                     value={sexo}
-                                    onChange={arg => setSexo(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                     inputProps={{ id: 'sexo' }}
                                 >
-                                    <option aria-label="None" value="" />
+                                    <option value="" />
                                     <option value={"Masculino"}>Masculino</option>
                                     <option value={"Feminino"}>Feminino</option>
                                     <option value={"Outro"}>Outro</option>
@@ -184,15 +118,13 @@ export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMON
 
                             <div>
                                 <TextField
-                                    required
                                     className="su-input3"
                                     id="standard-basic"
                                     label="Confirme seu E-mail"
                                     type="text"
+                                    name="emailCheck"
                                     value={emailCheck}
-
-                                    onChange={arg => setEmailCheck(arg.target.value)}
-
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
 
@@ -202,45 +134,39 @@ export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMON
                         <div className="su-box-top-row">
                             <div>
                                 <TextField
-                                    required
                                     className="su-input"
                                     id="standard-basic"
+                                    type="text"
                                     label="CEP"
                                     placeholder="12345000"
-                                    type="text"
                                     inputProps={{ maxLength: 8 }}
-                                    inputRef={register}
                                     name="cep"
                                     value={cep}
-                                    onChange={cepHandler}
+                                    onChange={this.setCep}
                                 />
                             </div>
                             <div>
                                 <TextField
-                                    required
                                     className="su-input3"
                                     id="standard-basic"
                                     label="Logradouro"
                                     placeholder="Av. Paulista"
                                     type="text"
-                                    inputRef={register}
                                     name="logradouro"
                                     value={logradouro}
-                                    onChange={arg => setLogradouro(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                             <div>
                                 <TextField
-                                    required
                                     className="su-input"
                                     id="standard-basic"
                                     label="Número"
                                     placeholder="999"
                                     type="text"
-                                    inputRef={register}
                                     name="numero"
                                     value={numero}
-                                    onChange={arg => setNumero(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                             <div>
@@ -249,50 +175,43 @@ export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMON
                                     id="standard-basic"
                                     label="Complemento"
                                     placeholder="Ap. 123"
-                                    inputRef={register}
                                     name="complemento"
                                     value={complemento}
-                                    onChange={arg => setComplemento(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                         </div>
                         <div className="su-box-mid-row">
                             <div>
                                 <TextField
-                                    required
                                     className="su-input2"
                                     id="standard-basic"
                                     label="Bairro"
                                     type="text"
-                                    inputRef={register}
                                     name="bairro"
                                     value={bairro}
-                                    onChange={arg => setBairro(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                             <div>
                                 <TextField
-                                    required
                                     className="su-input1"
                                     id="standard-basic"
                                     label="Cidade"
                                     type="text"
-                                    inputRef={register}
                                     name="cidade"
                                     value={cidade}
-                                    onChange={arg => setCidade(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                             <div>
                                 <InputLabel htmlFor="uf" required>UF</InputLabel>
                                 <Select
-                                    required
                                     native
                                     className="su-input-micro"
-                                    inputRef={register}
                                     name="uf"
                                     value={uf}
-                                    onChange={arg => setUf(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                     inputProps={{ id: 'uf' }}
                                 >
                                     <option value=""></option>
@@ -327,41 +246,153 @@ export default function SignUp() {      // FUNCTIONAL COMPONENT USADO PARA DEMON
                             </div>
                             <div>
                                 <TextField
-                                    required
                                     className="su-input1"
                                     id="standard-basic"
                                     label="Sua senha"
                                     type="password"
-                                    inputRef={register}
                                     name="senha"
                                     value={senha}
-                                    onChange={arg => setSenha(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                             <div>
                                 <TextField
-                                    required
                                     className="su-input1"
                                     id="standard-basic"
                                     label="Confirme sua senha"
                                     type="password"
-                                    inputRef={register}
-                                    name="password"
+                                    name="senhaCheck"
                                     value={senhaCheck}
-                                    onChange={arg => setSenhaCheck(arg.target.value)}
+                                    onChange={e => this.setField(e.target.name, e.target.value)}
                                 />
                             </div>
                         </div>
                         <div className="su-button-section">
                             <div className="su-button-reset">
-                                <Button variant="contained" type="reset" color="secondary" onClick={reset}> Limpar </Button>
+                                <Button variant="contained" type="reset" color="secondary" onClick={this.resetFields}> Limpar </Button>
                             </div>
-                            <Button variant="contained" onClick={onSubmit} color="primary"> Confirmar </Button>
+                            <Button variant="contained" onClick={this.submit} color="primary"> Confirmar </Button>
                         </div>
                     </div>
-                </form>
-            </Paper >
-        </div >
+                </Paper >
+            </div >
+        );
+    }
 
-    );
+    setField = (field, value) => {
+        this.setState({ [field]: value })
+    }
+
+    setCep = async (arg) => {
+        const cep = arg.target.value.replace(/[^0-9]+/g, '');
+        this.setState({
+            cep
+        })
+
+        if (cep.length > 7) {
+            const response = await this.buscaCep(cep);
+
+            if (response.erro) {
+                alert("CEP não encontrado! Por favor tente novamente");
+            } else {
+                this.setState({
+                    cep: response.cep,
+                    logradouro: response.logradouro,
+                    bairro: response.bairro,
+                    cidade: response.localidade,
+                    uf: response.uf
+                })
+            }
+        }
+    }
+
+    buscaCep = async (cep) => {
+        const response = await fetch('https://viacep.com.br/ws/' + cep + '/json/', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        return response.json();
+    }
+
+    resetFields = () => {
+        this.setState({
+            nome: '',
+            sobrenome: '',
+            email: '',
+            emailCheck: '',
+            dataDeNascimento: '',
+            sexo: '',
+            cep: '',
+            logradouro: '',
+            numero: '',
+            complemento: '',
+            bairro: '',
+            cidade: '',
+            uf: '',
+            senha: '',
+            senhaCheck: ''
+        });
+    }
+
+    submit = async () => {
+
+        const requestBody = {
+            "nome": this.state.nome,
+            "sobrenome": this.state.sobrenome,
+            "email": this.state.email,
+            "dataDeNascimento": this.state.dataDeNascimento,
+            "sexo": this.state.sexo,
+            "cep": this.state.cep,
+            "logradouro": this.state.logradouro,
+            "numero": this.state.numero,
+            "complemento": this.state.complemento,
+            "uf": this.state.uf,
+            "bairro": this.state.bairro,
+            "cidade": this.state.cidade,
+            "senha": this.state.senha
+        }
+
+        const requiredFields = this.validateRequiredFields(requestBody);
+
+        if (requiredFields.length !== 0) {
+            alert("Por favor preencha os campos obrigatórios");
+
+        } else {
+            const response = await this.createUser(requestBody);
+
+            if (response.ok) {
+                alert("Cadastro realizado com sucesso!");
+                this.props.history.push('/login');
+            } else {
+                alert("Opa, aconteceu algo de errado!");
+            }
+        }
+    }
+
+    createUser = async (requestBody) => {
+        const response = await fetch('http://localhost:8080/signup', {
+            method: 'post',
+            body: JSON.stringify(requestBody),
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        return response;
+    }
+
+    validateRequiredFields = () => {
+        const requiredFields = [];
+
+        for (const key in this.state) {
+            if (this.state[key] === "" &&
+                key !== "emailCheck" &&     // Exceção
+                key !== "senhaCheck" &&     // Exceção
+                key !== "complemento") {    // Exceção
+                requiredFields.push(key)
+            }
+        }
+
+        return requiredFields;
+    }
 }
+
+export default SignUp;
