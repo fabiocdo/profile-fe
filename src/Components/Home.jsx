@@ -14,14 +14,12 @@ class Home extends Component {
     }
 
     render() {
-
         return (
-            <Switch>
-                <Route exact path="/" component={Home} />
+            < Switch >
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={SignUp} />
                 <Route render={() => <Redirect to="/login" />} />
-            </Switch>
+            </Switch >
         );
     }
 }
