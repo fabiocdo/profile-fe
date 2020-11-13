@@ -60,7 +60,7 @@ class SignUp extends Component {
                                     label="Primeiro nome"
                                     name="nome"
                                     value={nome}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                             <div>
@@ -71,7 +71,7 @@ class SignUp extends Component {
                                     type="text"
                                     name="sobrenome"
                                     value={sobrenome}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                             <div>
@@ -82,7 +82,7 @@ class SignUp extends Component {
                                     type="text"
                                     name="email"
                                     value={email}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                         </div>
@@ -95,7 +95,7 @@ class SignUp extends Component {
                                     type="date"
                                     name="dataDeNascimento"
                                     value={dataDeNascimento}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                     InputLabelProps={{ shrink: true }}
                                 />
                             </div>
@@ -106,7 +106,7 @@ class SignUp extends Component {
                                     className="su-input2"
                                     name="sexo"
                                     value={sexo}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                     inputProps={{ id: 'sexo' }}
                                 >
                                     <option value="" />
@@ -118,13 +118,14 @@ class SignUp extends Component {
 
                             <div>
                                 <TextField
+                                    disabled
                                     className="su-input3"
                                     id="standard-basic"
                                     label="Confirme seu E-mail"
                                     type="text"
                                     name="emailCheck"
                                     value={emailCheck}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
 
@@ -154,7 +155,7 @@ class SignUp extends Component {
                                     type="text"
                                     name="logradouro"
                                     value={logradouro}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                             <div>
@@ -166,7 +167,7 @@ class SignUp extends Component {
                                     type="text"
                                     name="numero"
                                     value={numero}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                             <div>
@@ -177,7 +178,7 @@ class SignUp extends Component {
                                     placeholder="Ap. 123"
                                     name="complemento"
                                     value={complemento}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                         </div>
@@ -190,7 +191,7 @@ class SignUp extends Component {
                                     type="text"
                                     name="bairro"
                                     value={bairro}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                             <div>
@@ -201,17 +202,17 @@ class SignUp extends Component {
                                     type="text"
                                     name="cidade"
                                     value={cidade}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                             <div>
-                                <InputLabel htmlFor="uf" required>UF</InputLabel>
+                                <InputLabel htmlFor="uf">UF</InputLabel>
                                 <Select
                                     native
                                     className="su-input-micro"
                                     name="uf"
                                     value={uf}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                     inputProps={{ id: 'uf' }}
                                 >
                                     <option value=""></option>
@@ -235,7 +236,6 @@ class SignUp extends Component {
                                     <option value="PI">PI</option>
                                     <option value="RJ">RJ</option>
                                     <option value="RN">RN</option>
-                                    <option value="RS">RS</option>
                                     <option value="RO">RO</option>
                                     <option value="RR">RR</option>
                                     <option value="SC">SC</option>
@@ -252,18 +252,19 @@ class SignUp extends Component {
                                     type="password"
                                     name="senha"
                                     value={senha}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                             <div>
                                 <TextField
+                                    disabled
                                     className="su-input1"
                                     id="standard-basic"
                                     label="Confirme sua senha"
                                     type="password"
                                     name="senhaCheck"
                                     value={senhaCheck}
-                                    onChange={e => this.setField(e.target.name, e.target.value)}
+                                    onChange={this.setField}
                                 />
                             </div>
                         </div>
@@ -279,8 +280,10 @@ class SignUp extends Component {
         );
     }
 
-    setField = (field, value) => {
-        this.setState({ [field]: value })
+    setField = event => {
+        const { name, value } = event.target;
+
+        this.setState({ [name]: value })
     }
 
     setCep = async (arg) => {
@@ -355,7 +358,7 @@ class SignUp extends Component {
         const requiredFields = this.validateRequiredFields(requestBody);
 
         if (requiredFields.length !== 0) {
-            alert("Por favor preencha os campos obrigatórios");
+            alert("Todos os campos obrigatórios");
 
         } else {
             const response = await this.createUser(requestBody);
