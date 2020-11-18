@@ -121,7 +121,7 @@ class SignUp extends Component {
                                     disabled
                                     className="su-input3"
                                     id="standard-basic"
-                                    label="Confirme seu E-mail"
+                                    label="Confirme seu E-mail (disabled)"
                                     type="text"
                                     name="emailCheck"
                                     value={emailCheck}
@@ -260,7 +260,7 @@ class SignUp extends Component {
                                     disabled
                                     className="su-input1"
                                     id="standard-basic"
-                                    label="Confirme sua senha"
+                                    label="Confirme sua senha(disabled)"
                                     type="password"
                                     name="senhaCheck"
                                     value={senhaCheck}
@@ -365,7 +365,7 @@ class SignUp extends Component {
 
             if (response.ok) {
                 alert("Cadastro realizado com sucesso!");
-                this.props.history.push('/login');
+                this.props.history.push('/home');
             } else {
                 alert("Opa, aconteceu algo de errado!");
             }

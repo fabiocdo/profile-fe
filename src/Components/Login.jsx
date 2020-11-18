@@ -4,19 +4,19 @@ import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
 import '../Styles/login.css';
 
-class Login extends Component {     // CLASS COMPONENT USADO PARA DEMONSTRAÇÃO
+class Login extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            username: '',
-            password: ''
+            email: '',
+            senha: ''
         }
     }
 
     render() {
-        const { username, password } = this.state;
+        const { email, senha } = this.state;
 
         return (
             <div className="lg-container">
@@ -24,27 +24,29 @@ class Login extends Component {     // CLASS COMPONENT USADO PARA DEMONSTRAÇÃO
                     <div className="lg-box">
                         <div className="lg-title">
                             <HomeIcon fontSize="large" />
-                            <Typography variant="h5" component="h2">Login</Typography>
+                            <Typography variant="h6" component="h3">Login</Typography>
                         </div>
                         <div className="lg-input">
                             <TextField
                                 id="standard-basic"
-                                label="Username"
+                                label="E-mail"
+                                name="email"
                                 type="text"
-                                onChange={this.usernameInputHandler}
-                                value={username} />
+                                onChange={this.setField}
+                                value={email} />
                         </div>
                         <div className="lg-input">
                             <TextField
                                 id="standard-basic"
-                                label="Password"
+                                label="Senha"
+                                name="senha"
                                 type="password"
-                                onChange={this.passwordInputHandler}
-                                value={password} />
+                                onChange={this.setField}
+                                value={senha} />
                         </div>
                         <div className="lg-button-section">
-                            <Button variant="contained" color="primary" onClick={this.loginButtonHandler}> Log In </Button>
-                            <Link to="/signup" > <Button color="default"> Sign Up </Button> </Link>
+                            <Button variant="contained" color="primary" onClick={this.login}> Entrar </Button>
+                            <Link to="/signup" > <Button color="default"> Cadastrar-se </Button> </Link>
                         </div>
                     </div>
                 </Paper >
@@ -52,24 +54,52 @@ class Login extends Component {     // CLASS COMPONENT USADO PARA DEMONSTRAÇÃO
         );
     }
 
-    loginButtonHandler = () => {
-        console.log("Login clicado");
+    setField = event => {
+
+        const { name, value } = event.target;
+
+        this.setState({ [name]: value });
     }
 
-    usernameInputHandler = (arg) => {
-        const username = arg.target.value;
+    buscaCadastro = async (requestBody) => {
 
-        this.setState({
-            username
+        const response = await fetch('http://localhost:8080/login', {
+            method: 'post',
+            body: JSON.stringify(requestBody),
+            headers: { 'Content-Type': 'application/json' },
         });
+
+        return response;
     }
 
-    passwordInputHandler = (arg) => {
-        const password = arg.target.value;
+    login = async () => {
 
-        this.setState({
-            password
-        });
+        const { setUserData } = this.props;
+
+        const requestBody = {
+            "email": this.state.email,
+            "senha": this.state.senha
+        }
+
+        if (!this.state.email && !this.state.senha) {
+            alert("Ambos os campos são obrigatórios.");
+        } else {
+
+            const response = await this.buscaCadastro(requestBody);
+
+            if (response.ok) {
+                setUserData(response.json());
+
+            } else {
+                if (response.status === 404) {
+                    alert("O e-mail ou senha estão incorretos.");
+                }
+                if (response.status === 401) {
+                    alert("O e-mail ou senha estão incorretos.");
+                }
+            }
+
+        }
     }
 }
 
