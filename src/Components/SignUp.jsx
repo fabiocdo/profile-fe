@@ -365,7 +365,7 @@ class SignUp extends Component {
 
             if (response.ok) {
                 alert("Cadastro realizado com sucesso!");
-                this.props.history.push('/home');
+                this.props.history.push('/');
             } else {
                 alert("Opa, aconteceu algo de errado!");
             }
